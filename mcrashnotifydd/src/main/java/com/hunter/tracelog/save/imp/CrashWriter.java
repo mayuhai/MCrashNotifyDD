@@ -1,0 +1,85 @@
+package com.hunter.tracelog.save.imp;
+
+import android.content.Context;
+import android.os.Environment;
+
+import com.hunter.tracelog.TraceLog;
+import com.hunter.tracelog.save.BaseTraceSaver;
+import com.hunter.tracelog.util.FileUtil;
+import com.hunter.tracelog.util.LogUtil;
+
+import java.io.File;
+import java.util.Date;
+
+/**
+ * 在崩溃之后，马上异步保存崩溃信息，完成后退出线程，并且将崩溃信息都写在一个文件中
+ * author: mayuhai
+ * created on: 2019/6/20 12:29 PM
+ */
+public class CrashWriter extends BaseTraceSaver {
+
+    private final static String TAG = "CrashWriter";
+
+    /**
+     * 崩溃日志文件的文件名：eg： CrashLog2016-07-19.txt
+     */
+    public final static String LOG_FILE_NAME_EXCEPTION = FileUtil.CRASH + LOG_CREATE_TIME + SAVE_FILE_TYPE;
+
+
+    /**
+     * 。系统默认异常处理
+     */
+    private static final Thread.UncaughtExceptionHandler sDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
+
+    /**
+     * 初始化，继承父类
+     *
+     * @param context 上下文
+     */
+    public CrashWriter(Context context) {
+        super(context);
+    }
+
+    /**
+     * 异步的写操作，使用线程池对异步操作做统一的管理
+     *
+     * @param thread  发生崩溃的线程
+     * @param ex      崩溃的错误信息
+     * @param tag     标签，用于区别Log和Crash，一并写入文件中
+     * @param content 写入的Crash内容
+     */
+    @Override
+    public synchronized void writeCrash(final Thread thread, final Throwable ex, final String tag, final String content) {
+        mThreadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (BaseTraceSaver.class) {
+                    TimeLogFolder = TraceLog.getInstance().getROOT() + yyyy_MM_dd.format(new Date(System.currentTimeMillis())) + File.separator;
+                    File logsDir = new File(TimeLogFolder);
+                    File crashFile = new File(logsDir, LOG_FILE_NAME_EXCEPTION);//崩溃日志单独保存一个文件里
+                    if (TraceLog.getInstance().isCombineInfoCrash()) {
+                        crashFile = new File(logsDir, LOG_FILE_NAME_MONITOR);//行为日志和崩溃都保存在一个文件里
+                    }
+                    if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                        LogUtil.d(TAG, "SDcard 不可用");
+                        return;
+                    }
+                    if (!logsDir.exists()) {
+                        LogUtil.d(TAG, "logsDir.mkdirs() =  +　" + logsDir.mkdirs());
+                    }
+                    if (!crashFile.exists()) {
+                        createFile(crashFile, context);
+                    }
+                    StringBuilder preContent = new StringBuilder(decodeString(FileUtil.getText(crashFile)));
+                    LogUtil.d(TAG,  "读取本地的Crash文件，并且解密 = \n" + preContent.toString());
+                    preContent.append(formatTraceLogMsg(null,tag, content, null)).append("\n");
+                    LogUtil.d(TAG, "即将保存的Crash文件内容 = \n" + preContent.toString());
+                    writeText(crashFile, preContent.toString());
+                    sDefaultHandler.uncaughtException(thread, ex);
+                }
+            }
+        });
+
+    }
+
+}
