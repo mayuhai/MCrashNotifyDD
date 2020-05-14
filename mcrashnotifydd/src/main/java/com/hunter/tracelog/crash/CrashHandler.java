@@ -1,10 +1,9 @@
 package com.hunter.tracelog.crash;
 
-import android.app.Activity;
 import android.content.Context;
+
 import com.hunter.tracelog.save.BaseTraceSaver;
 import com.hunter.tracelog.save.ITraceSave;
-import com.hunter.tracelog.util.Utils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

@@ -1,12 +1,9 @@
 package com.hunter.mcrashnotifyddtest;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 
-import com.hunter.tracelog.crash.PerformanceReportManager;
-import com.hunter.tracelog.save.BaseTraceSaver;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 

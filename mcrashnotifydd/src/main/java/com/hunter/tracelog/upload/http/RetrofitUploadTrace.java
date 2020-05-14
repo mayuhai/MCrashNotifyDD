@@ -1,6 +1,7 @@
 package com.hunter.tracelog.upload.http;
 
 import android.content.Context;
+
 import com.hunter.tracelog.upload.BaseUploadTrace;
 import com.hunter.tracelog.upload.ITraceLogUpload;
 

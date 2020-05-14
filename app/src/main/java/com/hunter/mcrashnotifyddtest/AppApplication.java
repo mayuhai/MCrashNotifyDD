@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.hunter.tracelog.TraceLog;
 import com.hunter.tracelog.crash.PerformanceReportManager;
-import com.hunter.tracelog.encryption.imp.Base64Encode;
 import com.hunter.tracelog.save.imp.CrashWriter;
 import com.hunter.tracelog.upload.http.RetrofitUploadTrace;
 

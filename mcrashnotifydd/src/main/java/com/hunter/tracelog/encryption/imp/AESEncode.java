@@ -2,11 +2,12 @@ package com.hunter.tracelog.encryption.imp;
 
 import com.hunter.tracelog.encryption.IEncryption;
 
+import java.security.SecureRandom;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.SecureRandom;
 
 /**
  * AES加密，加密级别会DES高很多，支持128，192.256位加密
