@@ -5,17 +5,17 @@ Android crash 信息收集以及实时通知给钉钉群，减少crash 率
 1，在根build.gradle(吐槽下，为什么不叫root.gradle，这样一目了然是哪个gradle文件)下加入：maven { url 'https://jitpack.io' }
 ``` 
 allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
 	}
+}
 ``` 
 2，在要使用的moudle/build.gradle中加入依赖
 ``` 
-	dependencies {
-	        implementation 'com.github.mayuhai:MCrashNotifyDD:1.0.1'
-	}
+dependencies {
+	implementation 'com.github.mayuhai:MCrashNotifyDD:1.0.1'
+}
 ``` 
 3, 在项目中初始化(建议在application中)
  a,初始化Crash监听
