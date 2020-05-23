@@ -1,6 +1,7 @@
 # MCrashNotifyDD
 Android crash 信息收集以及实时通知给钉钉群，减少crash 率
 
+----
 #使用方法
 1，在根build.gradle(吐槽下，为什么不叫root.gradle，这样一目了然是哪个gradle文件)下加入：maven { url 'https://jitpack.io' }
 ``` 
@@ -18,7 +19,7 @@ dependencies {
 }
 ``` 
 3, 在项目中初始化(建议在application中)
- a,初始化Crash监听
+ a,初始化Crash监听(单纯的初始化也可以，这里我增加了其他配置，便于控制日志格式)
 ``` 
 TraceLog.getInstance()
 //                .setCacheSize(10 * 1024)//支持设置缓存大小，超出后清空
@@ -41,6 +42,13 @@ PerformanceReportManager.getInstance()
                 .setContext(this)
                 .setReportOfflineUrl("https://oapi.dingtalk.com/robot/send?access_token=fe747815e640beba0f24408e2c68d1f503c14258c4741146b4e0bdca54fbad78");
 ``` 
+c, 调用通知钉钉机器人API
+```
+PerformanceReportManager.getInstance().sendCrashTDD(“通知信息内容”);
+
+比如：
+PerformanceReportManager.getInstance().sendCrashTDD(BaseTraceSaver.formatTraceLogMsg(currentActivity, "TAG", “内容”, “额外信息”));
+```
 
 大功告成，消息实时提醒，特别好用，比bugly好用多了
  
