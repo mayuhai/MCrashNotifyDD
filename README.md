@@ -18,7 +18,7 @@ dependencies {
 	implementation 'com.github.mayuhai:MCrashNotifyDD:1.0.1'
 }
 ``` 
-3, 在项目中初始化(建议在application中)
+3，在项目中初始化(建议在application中)
  a,初始化Crash监听(单纯的初始化也可以，这里我增加了其他配置，便于控制日志格式)
 ``` 
 TraceLog.getInstance()
