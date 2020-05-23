@@ -1,8 +1,8 @@
 # MCrashNotifyDD
-Android crash 信息收集以及实时通知给钉钉群，减少crash 率
-
-----
-#使用方法
+Android crash 信息收集以及实时通知给钉钉群，减少crash 率  
+  
+----  
+#使用方法  
 1，在根build.gradle(吐槽下，为什么不叫root.gradle，这样一目了然是哪个gradle文件)下加入：maven { url 'https://jitpack.io' }
 ``` 
 allprojects {
